@@ -67,6 +67,7 @@ export class Player {
                 self.retryPlay(1)
             }
         })
+        return this.sound
     }
 
     play() {
