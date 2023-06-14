@@ -18,3 +18,12 @@ export const randomText = (src, len) => {
     }
     return result.join("")
 }
+
+export const useUseCustomTrafficLight = () => {
+    try {
+        return electronAPI ? electronAPI.useCustomTrafficLight : false
+    } catch (error) {
+        //Do Nothing
+    }
+    return false
+}
