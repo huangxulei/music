@@ -27,3 +27,9 @@ export const useUseCustomTrafficLight = () => {
     }
     return false
 }
+export const ALPHABET_NUMS = "ABCDEFGHIJKLMNOPQRSTUVWSYZabcdefghijklmnopqrstuvwsyz01234567890"
+
+/** 随机字符串: 大小写字母和数字组成 */
+export const randomTextWithinAlphabetNums = (len) => {
+    return randomText(ALPHABET_NUMS, len)
+}
