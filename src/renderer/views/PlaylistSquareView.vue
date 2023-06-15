@@ -92,7 +92,7 @@ const resetCommon = () => {
     resetScrollState()
 }
 
-const resetScrollState() => {
+const resetScrollState = () => {
     markScrollTop = 0
     squareContentRef.value.scrollTop = markScrollTop
 }

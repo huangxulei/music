@@ -1,5 +1,10 @@
 import { defineStore } from "pinia"
 import { useMainViewStore } from "./mainViewStore"
+import { QQ } from "../../vendor/qq"
+import { NetEase } from "../../vendor/netease"
+import { KuWo } from "../../vendor/kuwo"
+import { KuGou } from "../../vendor/kugou"
+import { LocalMusic } from "../../vendor/localmusic"
 
 //音乐平台
 const allPlatforms = [
@@ -63,7 +68,7 @@ export const usePlatformStore = defineStore("platform", {
             }
         },
         currentPlatform(state) {
-            const { exploreModes } = useMainViewStore()
+            //const { exploreModes } = useMainViewStore()
             return state.platforms()[state.currentPlatformIndex]
         },
         currentPlatformCode(state) {
@@ -83,7 +88,7 @@ export const usePlatformStore = defineStore("platform", {
         updateCurrentPlatform(index) {
             this.currentPlatformIndex = index
         },
-        updateCurrentPlatfromByCode(code) {
+        updateCurrentPlatformByCode(code) {
             if (!code || code.trim().length < 1) {
                 this.updateCurrentPlatform(-1)
                 return

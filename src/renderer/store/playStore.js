@@ -199,6 +199,20 @@ export const usePlayStore = defineStore("play", {
         },
         setAutoPlaying(value) {
             this.isAutoPlaying = value
+        },
+        /**
+         *改变
+         */
+        updateVolume(value) {
+            value = parseFloat(value)
+            value = value > 0 ? value : 0
+            value = value < 1 ? value : 1
+            this.volume = value
+            EventBus.emit("volume-set", value)
+        },
+        updateVolumeByOffset(value) {
+            value = parseFloat(value)
+            this.updateVolume(this.volume + value)
         }
     }
 })

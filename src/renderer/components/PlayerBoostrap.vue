@@ -33,7 +33,7 @@ const visitRoute = (path) => {
     router.push(path)
 }
 
-registryIpcRenderderListeners()
+//registryIpcRenderderListeners()
 
 //注册ipcMain消息监听器
 const registryIpcRenderderListeners = () => {

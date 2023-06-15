@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import EventBus from "../../common/EventBus"
-import { useIpcRenderer } from "../../common/Utilsj"
+import { useIpcRenderer } from "../../common/Utils"
 
 const ipcRenderer = useIpcRenderer()
 
