@@ -4,6 +4,7 @@ import { onActivated, onDeactivated, onMounted, reactive, ref, useAttrs, watch }
 import EventBus from '../../common/EventBus';
 import { usePlaylistSquareViewStore } from '../store/playlistSquareViewStore'
 import { useMainViewStore } from '../store/mainViewStore'
+import PlaylistCategoryBar from '../components/PlaylistCategoryBar.vue';
 
 const squareContentRef = ref(null)
 const back2TopBtnRef = ref(null)
@@ -102,7 +103,7 @@ const resetScrollState = () => {
 </script>
 <template>
     <div class="playlist-square-view" ref="squareContentRef">
-
+        <PlaylistCategoryBar :data="categories" :loading="isLoadingCategories"></PlaylistCategoryBar>
     </div>
 </template>
 <style scoped>

@@ -48,8 +48,10 @@ const getFlatData = () => {
                 </g>
             </svg>
             <template v-for="item in getFlatData()" v-show="data.length > 0">
-                <span v-html="item.key">
-
+                <span :class="{
+                    active: (item.row == currentCategoryItem.row
+                        && item.col == currentCategoryItem.col)
+                }" v-html="item.key">
                 </span>
             </template>
         </div>
@@ -61,5 +63,42 @@ const getFlatData = () => {
     height: 36px;
     overflow: hidden;
     text-align: left;
+}
+
+.playlist-category-bar span {
+    padding: 6px 15px;
+    margin-right: 8px;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 36px;
+    font-size: var(--text-size);
+    cursor: pointer;
+    white-space: nowrap;
+    border-radius: 10rem;
+    border: 0.1px solid transparent;
+    color: var(--text-color);
+}
+
+.playlist-category-bar span:hover {
+    background: var(--list-item-hover);
+    color: var(--text-color);
+}
+
+.playlist-category-bar svg {
+    fill: var(--svg-color);
+    margin-right: 15px;
+    cursor: pointer;
+    transform: translateY(3px);
+}
+
+.playlist-category-bar svg:hover {
+    fill: var(--hl-color);
+}
+
+.playlist-category-bar .active {
+    border-color: var(--hl-color);
+    background: var(--btn-bg) !important;
+    color: var(--text-color);
+    color: var(--svg-btn-color) !important;
 }
 </style>
