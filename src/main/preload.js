@@ -1,17 +1,12 @@
 const { contextBridge, ipcRenderer } = require("electron")
+const { isMacOS, useCustomTrafficLight } = require("./env")
 
-/*
- contextBridge.exposeInMainWorld('ipcRenderer', {
-    send: (channel, data) => {
-        ipcRenderer.send(channel, data);
+contextBridge.exposeInMainWorld("electronAPI", {
+    //ipcRenderer,
+    ipcRenderer: {
+        ...ipcRenderer,
+        on: ipcRenderer.on.bind(ipcRenderer)
     },
-    receive: (channel, func) => {
-        ipcRenderer.on(channel, (event, ...args) =>  func(...args));
-    }
- })
- */
-
-contextBridge.exposeInMainWorld("electronApi", {
-    ipcRenderer,
-    isMacOS: process.platform === "darwin"
+    isMacOS,
+    useCustomTrafficLight
 })

@@ -49,6 +49,7 @@ const loadCategories = () => {
         if (!vender) return
         vender.categories().then(result => {
             putCategory(result.platform, result.data)
+            //TODO
             categories.push(...result.data)
             EventBus.emit('playlistCategory-update')
             setLoadingCategories(false)

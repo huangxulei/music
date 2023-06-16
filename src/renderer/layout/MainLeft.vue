@@ -21,6 +21,11 @@ const { isPlaylistMode, isArtistMode, isUserHomeMode,
     exploreModeIndex, exploreModeCode } = storeToRefs(useMainViewStore())
 const { setExploreMode } = useMainViewStore()
 
+const switchExploreMode = () => {
+    const index = (exploreModeIndex.value + 1) % 3
+    setExploreMode(index)
+    //updatePlatformIndex(0, true)
+}
 
 </script>
 <template>
@@ -30,7 +35,7 @@ const { setExploreMode } = useMainViewStore()
         </div>
         <div class="center">
             <div id="explore-mode">
-                <div class="mode-item" v-show="isPlaylistMode">
+                <div class="mode-item" v-show="isPlaylistMode" @click="switchExploreMode">
                     <svg width="16" height="16" viewBox="0 0 615.13 462.95" xmlns="http://www.w3.org/2000/svg">
                         <g id="Layer_2" data-name="Layer 2">
                             <g id="Layer_1-2" data-name="Layer 1">
@@ -49,7 +54,7 @@ const { setExploreMode } = useMainViewStore()
                     </svg>
                     <span>歌单探索</span>
                 </div>
-                <div class="mode-item" v-show="isArtistMode">
+                <div class="mode-item" v-show="isArtistMode" @click="switchExploreMode">
                     <svg width="16" height="16" viewBox="0 0 810 854.54" xmlns="http://www.w3.org/2000/svg">
                         <g id="Layer_2" data-name="Layer 2">
                             <g id="Layer_1-2" data-name="Layer 1">
@@ -64,7 +69,7 @@ const { setExploreMode } = useMainViewStore()
                     </svg>
                     <span>歌手探索</span>
                 </div>
-                <div class="mode-item" v-show="isUserHomeMode">
+                <div class="mode-item" v-show="isUserHomeMode" @click="switchExploreMode">
                     <svg width="17" height="17" viewBox="0 0 938.47 938.5" xmlns="http://www.w3.org/2000/svg">
                         <g id="Layer_2" data-name="Layer 2">
                             <g id="Layer_1-2" data-name="Layer 1">
@@ -76,10 +81,16 @@ const { setExploreMode } = useMainViewStore()
                     <span>我的主页</span>
                 </div>
             </div>
+            <div class="platform-list">
+                <ul>
+                    <li v-for="(item, index) in platforms()" :class="{ active: (currentPlatformIndex == index) }"
+                        v-html="item.name"></li>
+                </ul>
+            </div>
         </div>
         <div class="bottom">
-            <div id="app-logo"></div>
-            <div id="app-title"></div>
+            <div id="app-logo">L</div>
+            <div id="app-title">Less Player</div>
         </div>
     </div>
 </template>
@@ -101,7 +112,8 @@ const { setExploreMode } = useMainViewStore()
 }
 
 #main-left .header,
-#main-left .center #main-left .bottom {
+#main-left .center,
+#main-left .bottom {
     width: 100%;
 }
 
@@ -150,6 +162,42 @@ const { setExploreMode } = useMainViewStore()
 
 #explore-mode .mode-item:hover svg {
     fill: var(--hl-color);
+}
+
+#main-left ul {
+    list-style: none;
+    text-align: left;
+    line-height: 32px;
+    padding-left: 13%;
+}
+
+#main-left li {
+    text-decoration: none;
+    width: 65%;
+    width: 117px;
+    margin-bottom: 10.5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: left;
+    overflow: hidden;
+    word-wrap: break-all;
+    white-space: pre-wrap;
+    line-break: anywhere;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+}
+
+#main-left li:hover {
+    background-color: var(--list-item-hover);
+}
+
+#main-left .active {
+    background: var(--btn-bg) !important;
+    color: var(--svg-btn-color);
 }
 
 
