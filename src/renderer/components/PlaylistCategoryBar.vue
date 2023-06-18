@@ -35,6 +35,33 @@ const getFlatData = () => {
     return flatData
 }
 
+const loadFirstCateData = () => {
+    const firstItem = getFlatData()[0]
+    visitCateItem(firstItem, firstItem.row, firstItem.col, true)
+}
+
+const visitCateItem = (item, row, col, forceRefresh) => {
+    const needRefresh = isDiffCate(item, row, col) || forceRefresh
+    updateCurrentCategoryItem(item, row, col)
+    if (needRefresh) {
+        EventBus.emit("playlistSquare-refresh")
+    }
+}
+//判断分类是否一致 不一致返回true
+const isDiffCate = (item, row, col) => {
+
+    const prevCate = currentCategoryItem.value
+    return prevCate ? (
+        prevCate.data.value != item.value
+        || prevCate.row != row
+        || prevCate.col != col) : true
+}
+
+EventBus.on('playlistCategory-update', () => {
+    flatData.length = 0
+    loadFirstCateData()
+})
+
 </script>
 <template>
     <div class="playlist-category-bar">
@@ -51,7 +78,7 @@ const getFlatData = () => {
                 <span :class="{
                     active: (item.row == currentCategoryItem.row
                         && item.col == currentCategoryItem.col)
-                }" v-html="item.key">
+                }" @click="visitCateItem(item, item.row, item.col)" v-html="item.key">
                 </span>
             </template>
         </div>

@@ -18,7 +18,6 @@ const trackMeta = (track) => {
     return track.title + artistName
 }
 
-
 const volumeBar = ref(null)
 onMounted(() => {
     if (volumeBar) volumeBar.value.setVolume(volume.value)
@@ -138,26 +137,5 @@ onMounted(() => {
     font-size: 14px;
     text-align: left;
     flex: 1;
-}
-
-.play-meta .volume-bar {
-    margin-left: 10px;
-}
-
-.play-meta .volume-status {
-    width: 18px;
-    margin-top: 6px;
-}
-
-.play-meta .st-slient,
-.play-meta .st-small,
-.play-meta .st-large {
-    width: 18px;
-    height: 18px;
-}
-
-.play-meta .volume-value {
-    width: 66px;
-    margin-left: 3px;
 }
 </style>

@@ -6,10 +6,13 @@ import { usePlayStore } from '../store/playStore';
 import EventBus from '../../common/EventBus';
 import PlayMeta from '../components/PlayMeta.vue';
 
-
 const router = useRouter()
 const progressBarRef = ref(null)
 const { progress } = storeToRefs(usePlayStore())
+
+const seekTrack = (percent) => {
+    EventBus.emit('track-seek', percent)
+}
 </script>
 
 <template>
@@ -17,6 +20,7 @@ const { progress } = storeToRefs(usePlayStore())
         <div id="play-nav">
             <PlayMeta id="play-meta"></PlayMeta>
         </div>
+        <ProgressBar ref="progressBarRef" :onseek="seekTrack"></ProgressBar>
     </div>
 </template>
 <style scoped>

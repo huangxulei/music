@@ -120,6 +120,9 @@ export const usePlatformStore = defineStore("platform", {
         },
         isKuGou(platform) {
             return this.isPlatformValid(platform) && platform.trim() == KuGou.CODE
+        },
+        isPlatformValid(platform) {
+            return platform && platform.trim().length > 0
         }
     }
 })

@@ -9,6 +9,10 @@ import VueLazyLoad from "vue3-lazyload"
 //播放器
 import { Player } from "../common/Player"
 
+//Components
+import ProgressBar from "./components/ProgressBar.vue"
+import ImageTextTile from "./components/ImageTextTile.vue"
+
 //状态管理
 const pinia = createPinia()
 //播放器：初始化并配置
@@ -23,4 +27,6 @@ app.use(pinia)
         loading: "default_cover.png",
         error: "default_cover.png"
     })
+    .component("ProgressBar", ProgressBar)
+    .component("ImageTextTile", ImageTextTile)
     .mount("#app")

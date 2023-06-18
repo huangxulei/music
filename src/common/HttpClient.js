@@ -15,8 +15,6 @@ const __get = (url, data, config, parseContentType) => {
         axios
             .get(url, config)
             .then((resp) => {
-                console.log(url)
-                console.log("__get--resp", resp)
                 try {
                     const result = parseContentType(resp)
                     console.log("11", result)

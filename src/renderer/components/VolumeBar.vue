@@ -69,4 +69,40 @@ defineExpose({
     align-items: center;
     -webkit-app-region: none
 }
+
+.volume-bar .volume-status {
+    margin-top: 10px;
+    width: 23px;
+    cursor: pointer;
+}
+
+.volume-bar .volume-status svg {
+    fill: var(--svg-color);
+}
+
+.volume-bar .st-slient,
+.volume-bar .st-small,
+.volume-bar .st-large {
+    width: 23px;
+    height: 23px;
+}
+
+.volume-bar .volume-status:hover svg {
+    fill: var(--hl-color);
+}
+
+.volume-bar .volume-value {
+    margin-left: 5px;
+    width: 80px;
+    height: 3px;
+    border-radius: 10rem;
+}
+
+.volume-bar .volume-value .thumb {
+    visibility: hidden;
+}
+
+.volume-bar:hover .volume-value .thumb {
+    visibility: visible;
+}
 </style>

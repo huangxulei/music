@@ -5,6 +5,8 @@ import EventBus from '../../common/EventBus';
 import { usePlaylistSquareViewStore } from '../store/playlistSquareViewStore'
 import { useMainViewStore } from '../store/mainViewStore'
 import PlaylistCategoryBar from '../components/PlaylistCategoryBar.vue';
+import PlaylistsControl from '../components/PlaylistsControl.vue';
+
 
 const squareContentRef = ref(null)
 const back2TopBtnRef = ref(null)
@@ -99,11 +101,19 @@ const resetScrollState = () => {
     squareContentRef.value.scrollTop = markScrollTop
 }
 
+const refreshData = () => {
+    resetCommon()
+    loadContent()
+}
+//刷新内容
+EventBus.on("playlistSquare-refresh", refreshData)
+
 
 </script>
 <template>
     <div class="playlist-square-view" ref="squareContentRef">
         <PlaylistCategoryBar :data="categories" :loading="isLoadingCategories"></PlaylistCategoryBar>
+        <PlaylistsControl :data="playlists" :loading="isLoadingContent"></PlaylistsControl>
     </div>
 </template>
 <style scoped>
