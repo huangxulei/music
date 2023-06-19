@@ -7,7 +7,6 @@ import { useMainViewStore } from '../store/mainViewStore'
 import PlaylistCategoryBar from '../components/PlaylistCategoryBar.vue';
 import PlaylistsControl from '../components/PlaylistsControl.vue';
 
-
 const squareContentRef = ref(null)
 const back2TopBtnRef = ref(null)
 

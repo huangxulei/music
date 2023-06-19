@@ -31,7 +31,7 @@ const visitItem = (item) => {
 <template>
     <div class="playlists-ctl">
         <PaginationTiles v-show="!loading">
-            <ImageTextTile v-for="item in data" :cover="item.cover" :title="item.title">
+            <ImageTextTile v-for="item in data" :cover="item.cover" :title="item.title" @click="visitItem(item)">
 
             </ImageTextTile>
         </PaginationTiles>

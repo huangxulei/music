@@ -12,6 +12,7 @@ import { Player } from "../common/Player"
 //Components
 import ProgressBar from "./components/ProgressBar.vue"
 import ImageTextTile from "./components/ImageTextTile.vue"
+import SongItem from "./components/SongItem.vue"
 
 //状态管理
 const pinia = createPinia()
@@ -29,4 +30,5 @@ app.use(pinia)
     })
     .component("ProgressBar", ProgressBar)
     .component("ImageTextTile", ImageTextTile)
+    .component("SongItem", SongItem)
     .mount("#app")

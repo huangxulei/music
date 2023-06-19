@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router"
 import PlaylistSquareView from "../views/PlaylistSquareView.vue"
-
+import PlaylistDetailView from "../views/PlaylistDetailView.vue"
 const routes = [
     {
         path: "/",
@@ -9,6 +9,12 @@ const routes = [
     {
         path: "/playlists/square/:platform",
         component: PlaylistSquareView
+    },
+    {
+        //歌单详情
+        path: "/:exploreMode/playlist/:platform/:id",
+        props: true,
+        component: PlaylistDetailView
     }
 ]
 
