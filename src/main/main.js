@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require("electron")
 const { isMacOS, useCustomTrafficLight, isDevEnv, USER_AGENT, AUDIO_EXTS, IMAGE_EXTS, APP_ICON } = require("./env")
 const path = require("path")
+const { scanDir, parseTracks, readText, FILE_PREFIX, randomTextWithinAlphabetNums } = require("./common")
 
 const startup = () => {
     init()

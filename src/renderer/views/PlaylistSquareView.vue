@@ -90,6 +90,11 @@ onMounted(() => {
     loadCategories()
 })
 
+onActivated(() => {
+    resetCommon()
+    loadCategories()
+})
+
 const resetCommon = () => {
     resetPagination()
     resetScrollState()
@@ -104,9 +109,14 @@ const refreshData = () => {
     resetCommon()
     loadContent()
 }
+
+watch(currentPlatformCode, (nv, ov) => {
+    if (!isPlaylistMode.value) return
+    resetCommon()
+    loadCategories()
+})
 //刷新内容
 EventBus.on("playlistSquare-refresh", refreshData)
-
 
 </script>
 <template>

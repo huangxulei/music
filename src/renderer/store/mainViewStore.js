@@ -11,6 +11,8 @@ export const useMainViewStore = defineStore("mainView", {
         artistCategoryViewShow: false,
         playbackQueueViewShow: false,
         playingViewShow: false,
+        //播放状态通知
+        playNotificationShow: false,
         //探索模式，歌单、歌手
         exploreModes: ["playlists", "artists", "userhome"],
         exploreModeIndex: 0
@@ -90,6 +92,12 @@ export const useMainViewStore = defineStore("mainView", {
         showToast(text, callback, delay) {
             text = text || "操作成功！"
             EventBus.emit("toast", { text, callback, delay })
+        },
+        showPlayNotification() {
+            this.playNotificationShow = true
+        },
+        hidePlayNotification() {
+            this.playNotificationShow = false
         }
     }
 })

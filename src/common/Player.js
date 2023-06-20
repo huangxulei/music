@@ -105,6 +105,7 @@ export class Player {
     }
 
     playTrack(track) {
+        console.log("播放歌曲", track.title)
         this.setCurrent(track)
         this.play()
     }

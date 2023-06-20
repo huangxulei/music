@@ -27,6 +27,22 @@ const switchExploreMode = () => {
     //updatePlatformIndex(0, true)
 }
 
+const updatePlatformIndex = (index, isSwitchMode) => {
+    updateCurrentPlatform(index)
+    const code = currentPlatformCode.value
+    const exploremode = exploreModeCode.value
+    let url = null
+    if (isLocal.value) {
+        url = '/' + code
+    } else if (isUserHomeMode.value && isSwitchMode) {
+        url = '/' + exploremode + '/' + code
+    } else if (isPlaylistMode.value || isArtistMode.value) {
+        url = '/' + exploremode + '/square/' + code
+    }
+    if (url) router.push(url)
+}
+
+
 </script>
 <template>
     <div id="main-left">
@@ -83,8 +99,10 @@ const switchExploreMode = () => {
             </div>
             <div class="platform-list">
                 <ul>
-                    <li v-for="(item, index) in platforms()" :class="{ active: (currentPlatformIndex == index) }"
-                        v-html="item.name"></li>
+                    <li v-for="(item, index) in platforms()"
+                        :class="{ active: (currentPlatformIndex == index) }"
+                        @click="updatePlatformIndex(index)" v-html="item.name">
+                    </li>
                 </ul>
             </div>
         </div>

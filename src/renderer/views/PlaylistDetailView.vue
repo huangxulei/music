@@ -49,6 +49,19 @@ const loadContent = () => {
         setLoading(false)
     })
 }
+
+const playAll = () => {
+    resetQueue()
+    addAll("即将为您播放全部！")
+    playNextTrack()
+}
+
+const addAll = (text) => {
+    addTracks(detail.data)
+    showToast(text || "歌曲已全部添加！")
+    //traceRecentPlay()
+}
+
 onMounted(() => {
     resetView()
     loadContent()
@@ -57,23 +70,18 @@ onMounted(() => {
 </script>
 
 <template>
-    <div id="playlist-detail"
-        ref="playlistDetailRef">
+    <div id="playlist-detail" ref="playlistDetailRef">
         <div class="header">
             <div>
-                <img class="cover"
-                    v-lazy="detail.cover" />
+                <img class="cover" v-lazy="detail.cover" />
             </div>
             <div class="right"
                 v-show="!isLoading">
-                <div class="title"
-                    v-html="detail.title"></div>
-                <div class="about"
-                    v-html="detail.about"></div>
+                <div class="title" v-html="detail.title"></div>
+                <div class="about" v-html="detail.about"></div>
                 <div class="action">
                     <PlayAddAllBtn :leftAction="playAll"
-                        :rightAction="() => addAll()"
-                        class="btn-spacing">
+                        :rightAction="() => addAll()" class="btn-spacing">
                     </PlayAddAllBtn>
                 </div>
             </div>
@@ -81,8 +89,7 @@ onMounted(() => {
         <div class="center">
             <div class="list-title">歌曲({{ listSize }})</div>
             <SongListControl :data="detail.data" :artistVisitable="true"
-                :albumVisitable="true"
-                :loading="isLoading">
+                :albumVisitable="true" :loading="isLoading">
             </SongListControl>
         </div>
     </div>
