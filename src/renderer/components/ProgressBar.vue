@@ -14,6 +14,14 @@ const seek = (e) => {
     const percent = (offsetX / offsetWidth).toFixed(3)
 }
 
+const updateProgress = (percent) => {
+    percent = percent * 100
+    barValueRef.value.style.width = percent + "%"
+}
+//暴露给父组件 maintop
+defineExpose({
+    updateProgress
+})
 </script>
 <template>
     <div class="progress-bar" ref="barRef">
@@ -30,7 +38,7 @@ const seek = (e) => {
 }
 
 .progress-bar .progress {
-    width: 20%;
+    width: 0;
     height: 100%;
     border-radius: 10rem;
     background: var(--progress-bg);

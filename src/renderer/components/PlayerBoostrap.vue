@@ -8,7 +8,7 @@ import { Track } from '../../common/Track';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
 import { useIpcRenderer } from '../../common/Utils';
-import { PLAY_MODE, TRAY_ACTION } from '../../common/Constants';
+import { PLAY_STATE, TRAY_ACTION } from '../../common/Constants';
 import { useRouter } from 'vue-router'
 import { useSettingStore } from '../store/settingStore';
 
@@ -126,7 +126,6 @@ const bootstrapTrack = (track, callback, noToast) => {
             if (queueTracksSize.value < 2) {//播放列表只有一首歌曲
                 if (!noToast) showToast()
             } else if (toastCnt < 9) {
-                console.log(toastCnt)
                 setAutoPlaying(true)
                 if (!noToast) showToast(playNextTrack)
                 ++toastCnt
@@ -144,6 +143,27 @@ const bootstrapTrack = (track, callback, noToast) => {
         //showToast(playNextTrack)
     })
 }
+
+EventBus.on('track-pos', secs => {
+    setPlaying(true)
+    updateCurrentTime(secs)
+})
+//根据歌曲状态执行操作
+EventBus.on('track-state', state => {
+    switch (state) {
+        case PLAY_STATE.PLAYING:
+            setPlaying(true)
+            break;
+        case PLAY_STATE.PAUSE:
+            setPlaying(false)
+            break;
+        case PLAY_STATE.END:
+            playNextTrack()
+            break;
+        default:
+            break
+    }
+})
 </script>
 <template>
     <slot></slot>

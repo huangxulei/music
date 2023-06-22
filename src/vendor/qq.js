@@ -353,7 +353,6 @@ export class QQ {
                 outCharset: "utf8"
             }
             getJson(url, reqBody).then((json) => {
-                console.log(json)
                 const result = []
                 //
                 const cateNameCached = []

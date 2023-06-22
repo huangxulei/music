@@ -17,7 +17,6 @@ const __get = (url, data, config, parseContentType) => {
             .then((resp) => {
                 try {
                     const result = parseContentType(resp)
-                    console.log("11", result)
                     resolve(result)
                 } catch (err) {
                     resolve(resp.data)

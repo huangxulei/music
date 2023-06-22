@@ -20,8 +20,32 @@ const toggleCategory = () => {
     togglePlaylistCategoryView()
 }
 
+//判断分类是否一致 不一致返回true
+const isDiffCate = (item, row, col) => {
+    const prevCate = currentCategoryItem.value
+    return prevCate ? (
+        prevCate.data.value != item.value
+        || prevCate.row != row
+        || prevCate.col != col) : true
+}
+const visitCateItem = (item, row, col, forceRefresh) => {
+    const needRefresh = isDiffCate(item, row, col) || forceRefresh
+    updateCurrentCategoryItem(item, row, col)
+    if (needRefresh) {
+        EventBus.emit("playlistSquare-refresh")
+    }
+}
+
 const flatData = reactive([])
 
+//TODO 随机打乱数据，感觉不够乱......
+const shuffle = (arr) => {
+    let i = arr.length
+    while (i) {
+        let j = Math.floor(Math.random() * i--);
+        [arr[j], arr[i]] = [arr[i], arr[j]]
+    }
+}
 const getFlatData = () => {
     if (flatData.length <= 0) {
         props.data.forEach((cate, row) => {
@@ -38,23 +62,6 @@ const getFlatData = () => {
 const loadFirstCateData = () => {
     const firstItem = getFlatData()[0]
     visitCateItem(firstItem, firstItem.row, firstItem.col, true)
-}
-
-const visitCateItem = (item, row, col, forceRefresh) => {
-    const needRefresh = isDiffCate(item, row, col) || forceRefresh
-    updateCurrentCategoryItem(item, row, col)
-    if (needRefresh) {
-        EventBus.emit("playlistSquare-refresh")
-    }
-}
-//判断分类是否一致 不一致返回true
-const isDiffCate = (item, row, col) => {
-
-    const prevCate = currentCategoryItem.value
-    return prevCate ? (
-        prevCate.data.value != item.value
-        || prevCate.row != row
-        || prevCate.col != col) : true
 }
 
 EventBus.on('playlistCategory-update', () => {
@@ -78,7 +85,8 @@ EventBus.on('playlistCategory-update', () => {
                 <span :class="{
                     active: (item.row == currentCategoryItem.row
                         && item.col == currentCategoryItem.col)
-                }" @click="visitCateItem(item, item.row, item.col)" v-html="item.key">
+                }"
+                    @click="visitCateItem(item, item.row, item.col)" v-html="item.key">
                 </span>
             </template>
         </div>

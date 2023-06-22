@@ -11,6 +11,9 @@ import { Player } from "../common/Player"
 
 //Components
 import ProgressBar from "./components/ProgressBar.vue"
+import VolumeBar from "./components/VolumeBar.vue"
+import AudioTime from "./components/AudioTime.vue"
+import PlayControl from "./components/PlayControl.vue"
 import ImageTextTile from "./components/ImageTextTile.vue"
 import SongItem from "./components/SongItem.vue"
 
@@ -29,6 +32,9 @@ app.use(pinia)
         error: "default_cover.png"
     })
     .component("ProgressBar", ProgressBar)
+    .component("VolumeBar", VolumeBar)
+    .component("AudioTime", AudioTime)
+    .component("PlayControl", PlayControl)
     .component("ImageTextTile", ImageTextTile)
     .component("SongItem", SongItem)
     .mount("#app")

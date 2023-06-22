@@ -13,12 +13,17 @@ const { progress } = storeToRefs(usePlayStore())
 const seekTrack = (percent) => {
     EventBus.emit('track-seek', percent)
 }
+
+watch(progress, (nv, ov) => {
+    progressBarRef.value.updateProgress(nv)
+})
 </script>
 
 <template>
     <div id="main-top">
         <div id="play-nav">
             <PlayMeta id="play-meta"></PlayMeta>
+            <PlayControl id="play-ctl"></PlayControl>
         </div>
         <ProgressBar ref="progressBarRef" :onseek="seekTrack"></ProgressBar>
     </div>
@@ -38,5 +43,13 @@ const seekTrack = (percent) => {
 
 #play-nav #play-meta {
     width: 34.33%;
+}
+
+#play-nav #play-ctl {
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    margin-left: 15px;
+    margin-right: 15px;
 }
 </style>

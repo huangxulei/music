@@ -1,14 +1,13 @@
 <script setup>
-import { storeToRefs } from 'pinia';
 import { onActivated, onDeactivated, onMounted, reactive, ref, useAttrs, watch } from 'vue';
+import { storeToRefs } from 'pinia';
 import EventBus from '../../common/EventBus';
 import { usePlaylistSquareViewStore } from '../store/playlistSquareViewStore'
-import { useMainViewStore } from '../store/mainViewStore'
 import PlaylistCategoryBar from '../components/PlaylistCategoryBar.vue';
 import PlaylistsControl from '../components/PlaylistsControl.vue';
+import { useMainViewStore } from '../store/mainViewStore';
 
 const squareContentRef = ref(null)
-const back2TopBtnRef = ref(null)
 
 const categories = reactive([])
 const playlists = reactive([])
@@ -85,6 +84,11 @@ const loadMoreContent = () => {
     loadContent(true)
 }
 
+const resetScrollState = () => {
+    markScrollTop = 0
+    //squareContentRef.value.scrollTop = markScrollTop
+}
+
 onMounted(() => {
     resetCommon()
     loadCategories()
@@ -100,12 +104,8 @@ const resetCommon = () => {
     resetScrollState()
 }
 
-const resetScrollState = () => {
-    markScrollTop = 0
-    squareContentRef.value.scrollTop = markScrollTop
-}
-
 const refreshData = () => {
+    console.log(currentCategory())
     resetCommon()
     loadContent()
 }

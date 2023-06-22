@@ -3,6 +3,7 @@ import { usePlatformStore } from "./platformStore"
 
 export const usePlaylistSquareViewStore = defineStore("playlistSquareView", {
     state: () => ({
+        // (platformCode, categoryArray)
         categoryMap: new Map(),
         currentCategoryItem: {
             data: { key: "默认", value: "" },
@@ -30,8 +31,9 @@ export const usePlaylistSquareViewStore = defineStore("playlistSquareView", {
         getCategory(key) {
             return this.categoryMap.get(key)
         },
+
         currentCategory() {
-            return this.getCategory(this.currentCategoryCode)
+            return this.getCategory(this.currentPlatformCode)
         },
         currentVender() {
             const { currentVender } = usePlatformStore()

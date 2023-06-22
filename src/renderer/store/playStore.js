@@ -187,7 +187,7 @@ export const usePlayStore = defineStore("play", {
             this.playingIndex = this.playingIndex < maxSize ? this.playingIndex : maxSize - 1
         },
         updateCurrentTime(secs) {
-            this.currentTime = secs + 1000
+            this.currentTime = secs * 1000
             let duration = 0
             try {
                 duration = this.currentTrack.duration
