@@ -4,7 +4,8 @@ import Notification from './Notification.vue';
 import { useMainViewStore } from '../store/mainViewStore';
 import { storeToRefs } from 'pinia';
 import EventBus from '../../common/EventBus';
-const { playbackQueueViewShow, commonNotificationShow, commonNotificationText, commonNotificationType } = storeToRefs(useMainViewStore())
+const { playbackQueueViewShow, commonNotificationShow,
+    commonNotificationText, commonNotificationType, playingViewShow } = storeToRefs(useMainViewStore())
 //TODO 还可以进一步封装，但是......
 const { showCommonNotification, hideCommonNotification } = useMainViewStore()
 
@@ -60,6 +61,11 @@ onMounted(() => {
             </template>
         </Notification>
     </transition>
+    <!-- 顶层浮动窗口 -->
+    <transition name="fade-y">
+        <PlayingView id="playing-view" v-show="playingViewShow">
+        </PlayingView>
+    </transition>
     <PlaybackQueueView id="playback-queue" v-show="playbackQueueViewShow">
     </PlaybackQueueView>
 </template>
@@ -75,5 +81,14 @@ onMounted(() => {
     z-index: 99;
     background: var(--app-bg);
     box-shadow: 0px 0px 10px #161616;
+}
+#playing-view {
+    position: absolute;
+    top: 0;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 88;
+    background: var(--app-bg);
 }
 </style>

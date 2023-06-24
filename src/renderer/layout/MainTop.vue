@@ -1,14 +1,12 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { ref, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 import { usePlayStore } from '../store/playStore';
 import EventBus from '../../common/EventBus';
 import PlayMeta from '../components/PlayMeta.vue';
-
-const router = useRouter()
-const progressBarRef = ref(null)
 const { progress } = storeToRefs(usePlayStore())
+
+const progressBarRef = ref(null)
 
 const seekTrack = (percent) => {
     EventBus.emit('track-seek', percent)

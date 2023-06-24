@@ -35,7 +35,8 @@ defineExpose({
 .progress-bar {
     height: 3px;
     border-radius: 10rem;
-    background: var(--progress-track-gb);
+    /*background: linear-gradient(to right, #464646, #666) !important;*/
+    background: var(--progress-track-bg);
     cursor: pointer;
     -webkit-app-region: none;
 }
@@ -44,6 +45,7 @@ defineExpose({
     width: 0;
     height: 100%;
     border-radius: 10rem;
+    background: var(--hl-text-bg);
     background: var(--progress-bg);
 }
 </style>
