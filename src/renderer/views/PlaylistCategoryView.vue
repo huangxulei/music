@@ -11,7 +11,6 @@ const { hidePlaylistCategoryView } = useMainViewStore()
 const category = reactive([])
 
 const updateCategory = () => {
-    console.log(currentCategory())
     category.length = 0
     const cached = currentCategory() || []
     category.push(...cached)
@@ -20,6 +19,22 @@ const updateCategory = () => {
 const resetScroll = () => {
     const view = document.querySelector(".playlist-category-view")
     view.scrollTop = 0
+}
+
+//判断分类是否一致 不一致返回true
+const isDiffCate = (item, row, col) => {
+    const prevCate = currentCategoryItem.value
+    return prevCate ? (
+        prevCate.data.value != item.value
+        || prevCate.row != row
+        || prevCate.col != col) : true
+}
+const visitCateItem = (item, row, col, forceRefresh) => {
+    const needRefresh = isDiffCate(item, row, col) || forceRefresh
+    updateCurrentCategoryItem(item, row, col)
+    if (needRefresh) {
+        EventBus.emit("playlistSquare-refresh")
+    }
 }
 
 EventBus.on('playlistCategory-update', () => {
@@ -41,7 +56,7 @@ EventBus.on('playlistCategory-resetScroll', () => {
                 <div class="cate-title">{{ cate.name }}</div>
                 <div class="cate-item-wrap">
                     <div v-for="(item, col) in cate.data" class="fl-item"
-                        v-html="item.key">
+                        v-html="item.key" @click="visitCateItem(item, row, col)">
                     </div>
                 </div>
             </div>

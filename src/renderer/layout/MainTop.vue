@@ -24,6 +24,9 @@ watch(progress, (nv, ov) => {
         <div id="play-nav">
             <PlayMeta id="play-meta"></PlayMeta>
             <PlayControl id="play-ctl"></PlayControl>
+            <div class="top-right">
+
+            </div>
         </div>
         <ProgressBar ref="progressBarRef" :onseek="seekTrack"></ProgressBar>
     </div>
@@ -51,5 +54,13 @@ watch(progress, (nv, ov) => {
     justify-content: center;
     margin-left: 15px;
     margin-right: 15px;
+}
+
+#play-nav .top-right {
+    width: 39.33%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 </style>

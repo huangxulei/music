@@ -4,11 +4,17 @@ import { usePlayStore } from '../store/playStore';
 import { useMainViewStore } from '../store/mainViewStore';
 
 const { playMode, playing } = storeToRefs(usePlayStore())
-const { playNextTrack, playPrevTrack, togglePlay } = usePlayStore()
+const { playNextTrack, playPrevTrack, togglePlay, switchPlayMode } = usePlayStore()
+const { togglePlaybackQueueView, hidePlaylistCategoryView } = useMainViewStore()
+
+const togglePlaybackQueue = () => {
+    hidePlaylistCategoryView()
+    togglePlaybackQueueView()
+}
 </script>
 <template>
     <div class="play-ctl">
-        <div class="play-mode-btn">
+        <div class="play-mode-btn" @click="switchPlayMode">
             <svg v-show="playMode == 0" width="21" height="21" viewBox="5 0 20 30" xmlns="http://www.w3.org/2000/svg">
                 <title />
                 <g data-name="Layer 2" id="Layer_2">

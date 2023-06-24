@@ -85,9 +85,7 @@ export const usePlayStore = defineStore("play", {
             })
         },
         removeTrack(track) {
-            const index = this.queueTracks.findIndex((item) => {
-                Track.isEquals(track, item)
-            })
+            const index = this.queueTracks.findIndex((item, index) => Track.isEquals(track, item))
             if (index > -1) {
                 const isCurrent = index == this.playingIndex
                 this.queueTracks.splice(index, 1)
@@ -119,24 +117,23 @@ export const usePlayStore = defineStore("play", {
             this.progress = 0.0
         },
         playTrack(track) {
-            console.log(track.url)
             //是否在播放列表中 返回下标
-            let index = this.queueTracks.findIndex((item) => {
-                Track.isEquals(track, item)
-            })
+            let index = this.queueTracks.findIndex((item, index) => Track.isEquals(track, item))
+            // let index = this.queueTracks.findIndex((item) => {
+            //     Track.isEquals(track, item)
+            // })
             //-1 不在列表中 获取当前播放下标 加1 给track,并假如播放列表中
             if (index == -1) {
                 index = this.playingIndex + 1
                 this.queueTracks.splice(index, 0, track)
+                console.log(this.queueTracks)
             }
             //改变当前播放下标
             this.playingIndex = index
             if (Track.hasUrl(track)) {
-                console.log("Track.hasUrl(track)")
                 EventBus.emit("track-play", track)
                 //if (!Track.hasLyric(track)) EventBus.emit("track-loadLyric", track)
             } else {
-                console.log("playTrack__changeTrack")
                 this.__changeTrack(track)
             }
         },

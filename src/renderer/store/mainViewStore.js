@@ -13,6 +13,10 @@ export const useMainViewStore = defineStore("mainView", {
         playingViewShow: false,
         //播放状态通知
         playNotificationShow: false,
+        //通用通知
+        commonNotificationShow: false,
+        commonNotificationText: null,
+        commonNotificationType: 0, //类型，0 - 普通成功消息，1-失败消息
         //探索模式，歌单、歌手
         exploreModes: ["playlists", "artists", "userhome"],
         exploreModeIndex: 0
@@ -98,6 +102,18 @@ export const useMainViewStore = defineStore("mainView", {
         },
         hidePlayNotification() {
             this.playNotificationShow = false
+        },
+        showCommonNotification(text) {
+            this.commonNotificationShow = true
+            this.commonNotificationText = text || "操作成功！"
+        },
+        setCommonNotificationType(type) {
+            this.commonNotificationType = type || 0
+        },
+        hideCommonNotification() {
+            this.commonNotificationShow = false
+            this.commonNotificationText = null
+            this.commonNotificationType = 0
         }
     }
 })

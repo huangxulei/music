@@ -123,6 +123,7 @@ export class Player {
     }
 
     seek(percent) {
+        console.log(percent)
         const sound = this.getSound()
         if (!sound) return
         if (sound.playing()) sound.seek(sound.duration() * percent)

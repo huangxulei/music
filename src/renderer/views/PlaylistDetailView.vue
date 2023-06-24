@@ -40,7 +40,6 @@ const loadContent = () => {
     const vender = getVender(props.platform)
     if (!vender) return
     vender.playlistDetail(props.id, offset, limit, page).then(result => {
-        console.log(result)
         if (page > 1) {
             result.data.unshift(...detail.data)
         }

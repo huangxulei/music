@@ -3,6 +3,7 @@ import PlayerBoostrap from './components/PlayerBoostrap.vue';
 import Themes from './components/Themes.vue';
 import MainLeft from './layout/MainLeft.vue'
 import MainCenter from './layout/MainCenter.vue'
+import PopoversCtl from './components/PopoversCtl.vue';
 </script>
 
 <template>
@@ -10,6 +11,7 @@ import MainCenter from './layout/MainCenter.vue'
         <Themes>
             <MainLeft></MainLeft>
             <MainCenter></MainCenter>
+            <PopoversCtl></PopoversCtl>
         </Themes>
     </PlayerBoostrap>
 </template>

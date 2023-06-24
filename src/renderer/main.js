@@ -16,7 +16,8 @@ import AudioTime from "./components/AudioTime.vue"
 import PlayControl from "./components/PlayControl.vue"
 import ImageTextTile from "./components/ImageTextTile.vue"
 import SongItem from "./components/SongItem.vue"
-
+import PlayingView from "./views/PlayingView.vue"
+import PlaybackQueueView from "./views/PlaybackQueueView.vue"
 //状态管理
 const pinia = createPinia()
 //播放器：初始化并配置
@@ -37,4 +38,7 @@ app.use(pinia)
     .component("PlayControl", PlayControl)
     .component("ImageTextTile", ImageTextTile)
     .component("SongItem", SongItem)
+    //Views
+    .component("PlayingView", PlayingView)
+    .component("PlaybackQueueView", PlaybackQueueView)
     .mount("#app")

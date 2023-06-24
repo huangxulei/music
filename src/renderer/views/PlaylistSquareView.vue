@@ -105,7 +105,6 @@ const resetCommon = () => {
 }
 
 const refreshData = () => {
-    console.log(currentCategory())
     resetCommon()
     loadContent()
 }

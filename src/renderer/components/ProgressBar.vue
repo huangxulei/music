@@ -12,6 +12,9 @@ const seek = (e) => {
     const offsetX = e.offsetX
     const offsetWidth = barRef.value.offsetWidth
     const percent = (offsetX / offsetWidth).toFixed(3)
+    if (props.onseek) {
+        props.onseek(percent)
+    }
 }
 
 const updateProgress = (percent) => {
@@ -24,7 +27,7 @@ defineExpose({
 })
 </script>
 <template>
-    <div class="progress-bar" ref="barRef">
+    <div class="progress-bar" ref="barRef" @click="seek">
         <div class="progress" ref="barValueRef"></div>
     </div>
 </template>
