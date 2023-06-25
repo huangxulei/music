@@ -9,7 +9,7 @@ export class Player {
     constructor(track) {
         this.currentTrack = track
         this.sound = null
-        this.retry = 0
+        this.retry = 0 //重试
     }
 
     static get() {
@@ -82,6 +82,7 @@ export class Player {
 
     togglePlay() {
         const sound = this.getSound()
+        //当前没有初始化
         if (!sound) {
             this.retryPlay(1)
             return

@@ -92,13 +92,27 @@ const registryIpcRenderderListeners = () => {
         }
     })
 }
+//加载歌词
+const loadLyric = (track) => {
+    if (!track) return
+    if (Track.hasLyric(track)) {
+        EventBus.emit('track-lyricLoaded', track)
+        return
+    }
+    const platform = track.platform
+    const vender = getVender(platform);
+    if (!vender) return
+    vender.lyric(track.id, track).then(result => assignLyric(track, result))
+}
+
+EventBus.on('track-loadLyric', track => loadLyric(track))
 
 //普通歌曲
 EventBus.on('track-changed', track => {
     //traceRecentPlay(track)
     bootstrapTrack(track, track => {
         playTrack(track)
-        //loadLyric(track)
+        loadLyric(track)
     })
 })
 
@@ -111,6 +125,16 @@ const traceRecentPlay = (track) => {
     }
     //EventBus.emit("userHome-refresh")
 }
+
+const assignLyric = (track, lyric) => {
+    //track.lyric = result
+    if (!track) return
+    if (!lyric) return
+    Object.assign(track, { lyric })
+    //LyricControl 来至playview
+    EventBus.emit('track-lyricLoaded', track)
+}
+
 let toastCnt = 0 //连跳计数器
 //获取url 
 const bootstrapTrack = (track, callback, noToast) => {
@@ -119,7 +143,9 @@ const bootstrapTrack = (track, callback, noToast) => {
     const vender = getVender(platform)
     if (!vender) return
     vender.playDetail(id, track).then(result => {
+        console.log('result', result)
         const { lyric, cover, artist, url } = result
+        console.log('lyric', lyric)
         if (Track.hasUrl(result)) Object.assign(track, { url })
         tryCancelPlayNextTimer()
         if (!Track.hasUrl(track)) {//如果没有url 
@@ -137,6 +163,10 @@ const bootstrapTrack = (track, callback, noToast) => {
         }
         toastCnt = 0
         setAutoPlaying(false)
+        //歌词载入
+        if (Track.hasLyric(result)) assignLyric(track, lyric)
+        //封面载入
+        if (Track.hasCover(result)) Object.assign(track, { cover })
         if (callback) callback(track)
     }).catch(e => {
         console.log(e)
@@ -164,6 +194,16 @@ EventBus.on('track-state', state => {
             break
     }
 })
+
+const retry = (track) => {
+    if (!Track.hasUrl(track)) {
+        playNextTrack()
+    } else {
+        EventBus.emit('track-changed', track)
+    }
+}
+
+EventBus.on('track-error', track => retry(track))
 </script>
 <template>
     <slot></slot>

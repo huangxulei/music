@@ -2,6 +2,7 @@ import { createApp } from "vue"
 import App from "./App.vue"
 //pinia
 import { createPinia } from "pinia"
+import piniaPersist from "pinia-plugin-persist"
 //Route
 import { router } from "./route/Router"
 //LazyLoad
@@ -20,6 +21,7 @@ import PlayingView from "./views/PlayingView.vue"
 import PlaybackQueueView from "./views/PlaybackQueueView.vue"
 //状态管理
 const pinia = createPinia()
+pinia.use(piniaPersist)
 //播放器：初始化并配置
 Player.initAndSetup()
 

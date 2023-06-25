@@ -213,5 +213,16 @@ export const usePlayStore = defineStore("play", {
             value = parseFloat(value)
             this.updateVolume(this.volume + value)
         }
+    },
+    persist: {
+        enabled: true,
+        strategies: [
+            {
+                key: "player",
+                storage: localStorage,
+                //缓存当前播放下标, 播放模式,歌曲列表,声音大小
+                paths: ["playingIndex", "playMode", "queueTracks", "volume"]
+            }
+        ]
     }
 })

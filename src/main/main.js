@@ -38,6 +38,9 @@ const createWindow = () => {
     if (isDevEnv) {
         mainWindow.loadURL("http://localhost:1000")
         mainWindow.webContents.openDevTools()
+    } else {
+        // Load the index.html of the app.
+        mainWindow.loadFile("dist/index.html")
     }
 
     mainWindow.once("ready-to-show", () => {

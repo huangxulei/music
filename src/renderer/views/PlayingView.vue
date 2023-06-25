@@ -3,6 +3,7 @@ import { onMounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia'
 import { usePlayStore } from '../store/playStore'
 import { useMainViewStore } from '../store/mainViewStore'
+import LyricControl from '../components/LyricControl.vue';
 import EventBus from '../../common/EventBus'
 import { Track } from '../../common/Track';
 import WinTrafficLightBtn from '../components/WinTrafficLightBtn.vue'
@@ -54,7 +55,7 @@ watch(progress, (nv, ov) => {
                 <img v-lazy="currentTrack.cover" />
             </div>
             <div class="lyric-view">
-                <!-- <LyricControl :track="currentTrack"></LyricControl> -->
+                <LyricControl :track="currentTrack"></LyricControl>
             </div>
         </div>
         <div class="bottom">
@@ -114,6 +115,17 @@ watch(progress, (nv, ov) => {
 .playing-view .header svg {
     fill: var(--svg-color);
 }
+
+
+.playing-view .center {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 99px;
+    margin-right: 99px;
+}
+
 
 .playing-view .cover,
 .playing-view .lyric-view {
