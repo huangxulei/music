@@ -3,6 +3,8 @@ const { isMacOS, useCustomTrafficLight, isDevEnv, USER_AGENT, AUDIO_EXTS, IMAGE_
 const path = require("path")
 const { scanDir, parseTracks, readText, FILE_PREFIX, randomTextWithinAlphabetNums } = require("./common")
 
+let mainWin = null
+
 const startup = () => {
     init()
     registryGlobalListeners()
@@ -21,7 +23,7 @@ const init = () => {
 }
 
 const createWindow = () => {
-    const mainWindow = new BrowserWindow({
+    mainWin = new BrowserWindow({
         width: 1080,
         height: 720,
         minWidth: 1080,
@@ -36,16 +38,16 @@ const createWindow = () => {
         }
     })
     if (isDevEnv) {
-        mainWindow.loadURL("http://localhost:1000")
-        mainWindow.webContents.openDevTools()
+        mainWin.loadURL("http://localhost:1000")
+        mainWin.webContents.openDevTools()
     } else {
         // Load the index.html of the app.
-        mainWindow.loadFile("dist/index.html")
+        mainWin.loadFile("dist/index.html")
     }
 
-    mainWindow.once("ready-to-show", () => {
+    mainWin.once("ready-to-show", () => {
         setWindowButtonVisibility(!useCustomTrafficLight)
-        mainWindow.show()
+        mainWin.show()
     })
 
     //配置请求过滤
@@ -58,31 +60,31 @@ const createWindow = () => {
         overrideRequest(details)
         callback({ requestHeaders: details.requestHeaders })
     })
-    return mainWindow
+    return mainWin
 }
 
 //全局事件监听
 const registryGlobalListeners = () => {
     //主进程事件监听
-    ipcMain
-        .on("app-quit", () => {
-            app.quit()
-        })
-        .on("app-min", () => {
-            const win = app.mainWin
+    ipcMain.on("app-quit", () => {
+        if (isDevEnv || isMacOS) {
+            mainWin.close()
+            return
+        }
+        app.quit()
+    }).on("app-min", () => {
+        if (mainWin.isFullScreen()) mainWin.setFullScreen(false)
+        if (mainWin.isMaximized() || mainWin.isNormal()) mainWin.minimize()
+    }).on("app-max", () => {
+        const win = app.mainWin
+        if (win.isMaximized()) {
+            win.unmaximize()
             //win.setFullScreen(false)
-            win.minimize()
-        })
-        .on("app-max", () => {
-            const win = app.mainWin
-            if (win.isMaximized()) {
-                win.unmaximize()
-                //win.setFullScreen(false)
-            } else {
-                win.maximize()
-                //win.setFullScreen(true)
-            }
-        })
+        } else {
+            win.maximize()
+            //win.setFullScreen(true)
+        }
+    })
 }
 
 //覆盖(包装)请求
