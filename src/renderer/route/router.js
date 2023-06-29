@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router"
 import PlaylistSquareView from "../views/PlaylistSquareView.vue"
 import PlaylistDetailView from "../views/PlaylistDetailView.vue"
+import LocalMusicView from "../views/LocalMusicView.vue"
 const routes = [
     {
         path: "/",
@@ -15,7 +16,11 @@ const routes = [
         path: "/:exploreMode/playlist/:platform/:id",
         props: true,
         component: PlaylistDetailView
-    }
+    },
+    {  //本地歌曲
+        path: '/local',
+        component: LocalMusicView
+    },
 ]
 
 export const router = createRouter({
