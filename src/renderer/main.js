@@ -39,8 +39,14 @@ app.config.errorHandler = (err, vm, info) => {
 app.use(pinia)
     .use(router)
     .use(VueLazyLoad, {
-        loading: "default_cover.png",
-        error: "default_cover.png"
+        loading: 'default_cover.png',
+        error: 'default_cover.png',
+        log: false,
+        lifecycle: {
+            error: (el) => {
+                //console.log(el)
+            }
+        }
     })
     .component("ProgressBar", ProgressBar)
     .component("VolumeBar", VolumeBar)

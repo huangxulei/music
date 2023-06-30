@@ -6,7 +6,7 @@ import { useUserProfileStore } from '../store/userProfileStore';
 import EventBus from '../../common/EventBus';
 import { Track } from '../../common/Track';
 import { storeToRefs } from 'pinia';
-import { onMounted } from 'vue';
+import { onMounted, provide } from 'vue';
 import { useIpcRenderer } from '../../common/Utils';
 import { PLAY_STATE, TRAY_ACTION } from '../../common/Constants';
 import { useRouter } from 'vue-router'
@@ -25,6 +25,13 @@ const { showPlayNotification, hidePlayNotification,
     hidePlayingView, hidePlaybackQueueView, togglePlaybackQueueView } = useMainViewStore()
 const { isStorePlayStateBeforeQuit, isStoreLocalMusicBeforeQuit } = storeToRefs(useSettingStore())
 const { addRecentSong } = useUserProfileStore()
+
+
+//TODO 世界上没有什么是绝对完美的，没有代码提示是硬伤 ~
+provide('appRoute', {
+
+})
+
 
 //TODO 用户手动干预，即主动点击上/下一曲时，产生体验上的Bug
 let playNextTimer = null

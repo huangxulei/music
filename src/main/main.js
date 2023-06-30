@@ -55,7 +55,7 @@ const createWindow = () => {
         urls: ["*://*.qq.com/*", "*://music.163.com/*", "*://*.kuwo.cn/*", "*://*.kugou.com/*", "*://*.douban.com/*", "*://*.doubanio.com/*", "*://*.ridio.cn/*", "*://*.cnr.cn/*"]
     }
 
-    const webSession = mainWindow.webContents.session
+    const webSession = mainWin.webContents.session
     webSession.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
         overrideRequest(details)
         callback({ requestHeaders: details.requestHeaders })
