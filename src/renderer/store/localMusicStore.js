@@ -8,7 +8,9 @@ export const useLocalMusicStore = defineStore('localMusic', {
     state: () => ({
         localDirs: [],
         localTracks: [],
-        isLoading: false
+        //上面状态，后期会全部移除掉
+        localPlaylists: [],
+        importTaskCount: 0, //正在进行中的导入任务数
     }),
     getters: {
 
@@ -47,14 +49,20 @@ export const useLocalMusicStore = defineStore('localMusic', {
         resetAll() {
             this.localDirs.length = 0
             this.localTracks.length = 0
-        }
+        },
+        increaseImportTaskCount() {
+            ++this.importTaskCount
+        },
+        decreaseImportTaskCount() {
+            this.importTaskCount = Math.max(this.importTaskCount - 1, 0)
+        },
     },
     persist: {
         enabled: true,
         strategies: [
             {
                 storage: localStorage,
-                paths: ['localDirs', 'localTracks']
+                paths: ['localPlaylists']
             }
         ]
     }

@@ -1,101 +1,67 @@
 <script setup>
+import { inject, onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
-import PlayAddAllBtn from '../components/PlayAddAllBtn.vue';
-import AddFolderFileBtn from '../components/AddFolderFileBtn.vue';
+import CreatePlaylistBtn from '../components/CreatePlaylistBtn.vue';
 import { useLocalMusicStore } from '../store/localMusicStore'
-import { usePlayStore } from '../store/playStore';
-
-const { addFolders, addFiles, removeItem } = useLocalMusicStore()
-const { localTracks } = storeToRefs(useLocalMusicStore())
-const { addTracks, resetQueue, playNextTrack } = usePlayStore()
-
-const playAll = () => {
-    if (noTracks()) return
-    resetQueue()
-    addAll()
-    playNextTrack()
-}
-
-const addAll = () => {
-    if (noTracks()) return
-    addTracks(localTracks.value)
-}
-
-const noTracks = () => (localTracks.value.length < 1)
+const { visitLocalPlaylistCreate } = inject('appRoute')
+const { localPlaylists } = storeToRefs(useLocalMusicStore())
 </script>
 <template>
-    <div id="local-music">
+    <div id="local-music-view" ref="localMusicRef">
         <div class="header">
-            <div>
-                <img class="cover" src="/default_cover.png" />
+            <div class="title">本地歌曲</div>
+            <div class="about">
+                <p>支持播放的音频格式：.mp3、.flac、.ogg、.wav、.aac、.m4a</p>
+                <p>支持导入的歌单格式：.m3u、.pls</p>
+                <p>歌单导入、导出功能，并不支持跨设备，而为兼容当前设备下的其他播放器</p>
+                <p>最近播放功能，暂时还不支持记录本地歌曲</p>
+                <p>歌曲信息乱码时，建议使用第三方音乐标签工具修正后，再重新添加到当前播放器</p>
             </div>
-            <div class="right">
-                <div class="title">本地歌曲</div>
-                <div class="about">
-                    <p>目前支持的音频格式有：.mp3、.flac、.ogg、.wav、.aac、.m4a</p>
-                    <p>此功能仅供试用体验，暂时还没有完善~</p>
-                </div>
-                <div class="action">
-                    <PlayAddAllBtn :leftAction="playAll" :rightAction="addAll"></PlayAddAllBtn>
-                    <AddFolderFileBtn :leftAction="addFolders" :rightAction="addFiles" class="spacing"></AddFolderFileBtn>
-                </div>
+            <div class="action">
+                <CreatePlaylistBtn :leftAction="visitLocalPlaylistCreate">
+                </CreatePlaylistBtn>
             </div>
         </div>
         <div class="center">
-            <div class="list-title">歌曲({{ localTracks.length }})</div>
-            <div class="songlist">
-                <div v-for="(item, index) in localTracks">
-                    <SongItem :index="index" :data="item" :artistVisiable="false"
-                        :albumVisiable="false" :deleteFn="removeItem">
-                    </SongItem>
-                </div>
-            </div>
-        </div>
+            <div class="list-title content-text-highlight">歌单({{ localPlaylists.length }})</div>
 
+        </div>
     </div>
 </template>
 <style>
-#local-music {
+#local-music-view {
     display: flex;
     flex-direction: column;
-    padding: 28px 33px 10px 33px;
-    overflow: auto;
     flex: 1;
+    padding: 20px 33px 10px 33px;
+    overflow: scroll;
+    overflow-x: hidden;
 }
 
-#local-music .header {
+#local-music-view .spacing {
+    margin-left: 20px;
+}
+
+#local-music-view .header {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin-bottom: 20px;
 }
 
-#local-music .heaer .cover {
-    width: 233px;
-    height: 233px;
-    border-radius: 6px;
-    box-shadow: 0px 0px 10px #161616;
-}
-
-
-#local-music .header .right {
-    flex: 1;
-    margin-left: 30px;
-}
-
-#local-music .header .title {
+#local-music-view .header .title {
     text-align: left;
-    margin-top: 5px;
-    margin-bottom: 20px;
-    font-size: 30px;
+    margin-bottom: 10px;
+    font-size: var(--content-text-module-title-size);
     font-weight: bold;
 }
 
-#local-music .header .about {
+#local-music-view .header .about {
     text-align: left;
-    margin-bottom: 20px;
-    line-height: 23px;
-    color: var(--text-sub-color);
-
+    margin-left: 5px;
+    margin-bottom: 15px;
+    line-height: 28px;
+    color: var(--content-subtitle-text-color);
+    /*
     overflow: hidden;
     word-wrap: break-all;
     white-space: pre-wrap;
@@ -104,46 +70,17 @@ const noTracks = () => (localTracks.value.length < 1)
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 6;
+    */
 }
 
-#local-music .header .action {
+#local-music-view .header .action {
     display: flex;
 }
 
-#local-music .header .spacing {
-    margin-left: 20px;
-}
-
-#local-music .list-title {
-    margin-bottom: 15px;
+#local-music-view .center .list-title {
+    margin-bottom: 5px;
     text-align: left;
     font-size: 16px;
     font-weight: bold;
-    background: var(--hl-text-bg);
-    -webkit-background-clip: text;
-    color: transparent;
-}
-
-#local-music .empty-tip,
-#local-music .loading-tip {
-    margin-top: 66px;
-    font-size: 18px;
-    line-height: 28px;
-    color: var(--text-sub-color);
-}
-
-#local-music .songlist {
-    display: flex;
-    flex-direction: column;
-}
-
-#local-music .artist span,
-#local-music .album span {
-    cursor: default;
-    color: #eee;
-}
-
-#local-music .songlist .title:hover .delete-btn {
-    visibility: visible;
 }
 </style>

@@ -23,6 +23,7 @@ const { playTrack, playNextTrack, setAutoPlaying, playPrevTrack,
 const { getVender } = usePlatformStore()
 const { showPlayNotification, hidePlayNotification,
     hidePlayingView, hidePlaybackQueueView, togglePlaybackQueueView } = useMainViewStore()
+const { exploreModeCode } = storeToRefs(useMainViewStore())
 const { isStorePlayStateBeforeQuit, isStoreLocalMusicBeforeQuit } = storeToRefs(useSettingStore())
 const { addRecentSong } = useUserProfileStore()
 
@@ -47,52 +48,49 @@ const tryCancelPlayNextTimer = () => {
     }
 }
 
-const visitRoute = (path) => {
-    hidePlayingView()
-    hidePlaybackQueueView()
-    router.push(path)
-}
-
-//registryIpcRenderderListeners()
-
-//注册ipcMain消息监听器
-const registryIpcRenderderListeners = () => {
-    if (!ipcRenderer) return
-    //Tray事件
-    ipcRenderer.on("tray-action", (e, value) => {
-        switch (value) {
-            case TRAY_ACTION.PLAY:
-            case TRAY_ACTION.PAUSE:
-                togglePlay()
-                break
-            case TRAY_ACTION.PLAY_PREV:
-                playPrevTrack()
-                break
-            case TRAY_ACTION.PLAY_NEXT:
-                playNextTrack()
-                break
-            case TRAY_ACTION.HOME:
-                visitRoute('/')
-                break
-            case TRAY_ACTION.USERHOME:
-                visitRoute('/userhome/all')
-                break
-            case TRAY_ACTION.SETTING:
-                visitRoute('/setting')
-                break
+const currentRoutePath = () => (router.currentRoute.value.path)
+const resolveExploreMode = (exploreMode) => (exploreMode || exploreModeCode.value)
+const resolveRoute = (route) => (typeof (route) == 'object' ? route : { toPath: route.toString() })
+//TODO Reject是否需要实现待考虑
+const visitRoute = (route) => {
+    return new Promise((resolve, reject) => {
+        if (!route) {
+            return
         }
+        const { toPath, onRouteReady, beforeRoute } = resolveRoute(route)
+        if (!toPath) {
+            //if(reject) reject()
+            return
+        }
+        if (beforeRoute) beforeRoute(toPath)
+        const fromPath = currentRoutePath()
+        const isSame = (fromPath == toPath)
+        if (isSame) {
+            //if(reject) reject()
+            return
+        }
+        if (onRouteReady) onRouteReady(toPath)
+        router.push(toPath)
+        if (resolve) resolve()
     })
 
-    //其他事件
-    ipcRenderer.on('app-quit', () => {
-        if (!isStorePlayStateBeforeQuit.value) {
-            localStorage.removeItem('player')
-        }
-        if (!isStoreLocalMusicBeforeQuit.value) {
-            localStorage.removeItem('localMusic')
-        }
-    })
 }
+
+
+provide('appRoute', {
+    currentRoutePath,
+    visitRoute,
+    backward: () => router.back(),
+    forward: () => router.forward(),
+    visitLocalPlaylistCreate: (exploreMode) => {
+        exploreMode = resolveExploreMode(exploreMode)
+        console.log(exploreMode)
+        return visitRoute(`/${exploreMode}/local/create`)
+    },
+})
+
+
+
 //加载歌词
 const loadLyric = (track) => {
     if (!track) return

@@ -17,6 +17,7 @@ import AudioTime from "./components/AudioTime.vue"
 import PlayControl from "./components/PlayControl.vue"
 import ImageTextTile from "./components/ImageTextTile.vue"
 import SongItem from "./components/SongItem.vue"
+import SvgTextButton from './components/SvgTextButton.vue';
 import PlayingView from "./views/PlayingView.vue"
 import PlaybackQueueView from "./views/PlaybackQueueView.vue"
 //状态管理
@@ -54,6 +55,7 @@ app.use(pinia)
     .component("PlayControl", PlayControl)
     .component("ImageTextTile", ImageTextTile)
     .component("SongItem", SongItem)
+    .component('SvgTextButton', SvgTextButton)
     //Views
     .component("PlayingView", PlayingView)
     .component("PlaybackQueueView", PlaybackQueueView)
