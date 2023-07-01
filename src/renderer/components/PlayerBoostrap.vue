@@ -27,12 +27,6 @@ const { isStorePlayStateBeforeQuit, isStoreLocalMusicBeforeQuit } = storeToRefs(
 const { addRecentSong } = useUserProfileStore()
 
 
-//TODO 世界上没有什么是绝对完美的，没有代码提示是硬伤 ~
-provide('appRoute', {
-
-})
-
-
 //TODO 用户手动干预，即主动点击上/下一曲时，产生体验上的Bug
 let playNextTimer = null
 const showToast = (callback) => {

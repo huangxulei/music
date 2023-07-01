@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require("electron")
+const { app, BrowserWindow, ipcMain, dialog } = require("electron")
 const { isMacOS, useCustomTrafficLight, isDevEnv, USER_AGENT, AUDIO_EXTS, IMAGE_EXTS, APP_ICON } = require("./env")
 const path = require("path")
 const { scanDir, parseTracks, readText, FILE_PREFIX, randomTextWithinAlphabetNums } = require("./common")
@@ -84,6 +84,25 @@ const registryGlobalListeners = () => {
             win.maximize()
             //win.setFullScreen(true)
         }
+    })
+
+    ipcMain.handle("open-dirs", async (e, ...args) => {
+        const result = await dialog.showOpenDialog(app.mainWin, {
+            title: "请选择文件夹",
+            properties: ["openDirectory"]
+        })
+        if (result.canceled) return null
+        return scanDir(result.filePaths[0], AUDIO_EXTS)
+    })
+
+    ipcMain.handle("open-files", async (e, ...args) => {
+        const result = await dialog.showOpenDialog(app.mainWin, {
+            title: "请选择文件",
+            filters: [{ name: "Audios", extensions: AUDIO_EXTS }],
+            properties: ["openFile", "multiSelections"]
+        })
+        if (result.canceled) return null
+        return parseTracks(result.filePaths)
     })
 }
 
