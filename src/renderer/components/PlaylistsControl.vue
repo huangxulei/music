@@ -1,12 +1,11 @@
 <script setup>
+import { inject } from 'vue'
 import { useRouter } from 'vue-router'
 import PaginationTiles from './PaginationTiles.vue'
 import { usePlatformStore } from '../store/platformStore';
-import { usePlayStore } from '../store/playStore';
-import EventBus from '../../common/EventBus';
 import { useMainViewStore } from '../store/mainViewStore';
 import { storeToRefs } from 'pinia';
-import { Track } from '../../common/Track';
+const { visitPlaylist } = inject('appRoute')
 
 const props = defineProps({
     data: Array,
@@ -21,8 +20,7 @@ const visitItem = (item) => {
     const idValid = (typeof (id) == 'string') ? (id.trim().length > 0) : (id > 0)
     const visitable = platformValid && idValid
     if (visitable) {
-        const url = '/' + exploreModeCode.value + '/playlist/' + platform + "/" + id
-        router.push(url)
+        visitPlaylist(platform, id)
     }
 }
 </script>

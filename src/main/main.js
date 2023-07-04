@@ -104,6 +104,17 @@ const registryGlobalListeners = () => {
         if (result.canceled) return null
         return parseTracks(result.filePaths)
     })
+
+    ipcMain.handle('open-image', async (event, ...args) => {
+        const result = await dialog.showOpenDialog(mainWin, {
+            title: '请选择文件',
+            filters: [
+                { name: 'Image', extensions: IMAGE_EXTS }
+            ],
+            properties: ['openFile']
+        })
+        return result.filePaths.map(item => (FILE_PREFIX + item))
+    })
 }
 
 //覆盖(包装)请求

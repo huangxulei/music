@@ -7,6 +7,14 @@ const tryCall = (call, fallbackValue) => {
     return fallbackValue
 }
 
+export const toTrimString = (value) => {
+    value = value === 0 ? '0' : value
+    return (value || '').toString().trim()
+}
+
+export const isBlank = (text) => {
+    return toTrimString(text).length < 1
+}
 
 export const useIpcRenderer = () => {
     return tryCall(() => (electronAPI.ipcRenderer), null)
@@ -45,7 +53,9 @@ export const randomText = (src, len) => {
 
 export const ALPHABET_NUMS = "ABCDEFGHIJKLMNOPQRSTUVWSYZabcdefghijklmnopqrstuvwsyz01234567890"
 
+
+/** 随机字符串: 只有大小写字母组成 */
+export const randomTextWithinAlphabet = (len) => (randomText(ALPHABETS, len))
+
 /** 随机字符串: 大小写字母和数字组成 */
-export const randomTextWithinAlphabetNums = (len) => {
-    return randomText(ALPHABET_NUMS, len)
-}
+export const randomTextWithinAlphabetNums = (len) => (randomText(ALPHABET_NUMS, len))

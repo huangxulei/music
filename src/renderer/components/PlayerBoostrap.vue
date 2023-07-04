@@ -84,8 +84,14 @@ provide('appRoute', {
     forward: () => router.forward(),
     visitLocalPlaylistCreate: (exploreMode) => {
         exploreMode = resolveExploreMode(exploreMode)
-        console.log(exploreMode)
         return visitRoute(`/${exploreMode}/local/create`)
+    },
+    visitPlaylist: (platform, id) => {
+        const exploreMode = resolveExploreMode()
+        if (platform === 'local') {
+            return visitRoute(`/${exploreMode}/local/${id}`)
+        }
+        return visitRoute(`/${exploreMode}/playlist/${platform}/${id}`)
     },
 })
 

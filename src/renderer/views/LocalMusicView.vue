@@ -2,9 +2,11 @@
 import { inject, onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import CreatePlaylistBtn from '../components/CreatePlaylistBtn.vue';
+import PlaylistsControl from '../components/PlaylistsControl.vue';
 import { useLocalMusicStore } from '../store/localMusicStore'
 const { visitLocalPlaylistCreate } = inject('appRoute')
-const { localPlaylists } = storeToRefs(useLocalMusicStore())
+const { localPlaylists, importTaskCount } = storeToRefs(useLocalMusicStore())
+const isLoading = ref(false)
 </script>
 <template>
     <div id="local-music-view" ref="localMusicRef">
@@ -24,7 +26,8 @@ const { localPlaylists } = storeToRefs(useLocalMusicStore())
         </div>
         <div class="center">
             <div class="list-title content-text-highlight">歌单({{ localPlaylists.length }})</div>
-
+            <PlaylistsControl :data="localPlaylists" :loading="isLoading" :customLoadingCount="importTaskCount">
+            </PlaylistsControl>
         </div>
     </div>
 </template>
