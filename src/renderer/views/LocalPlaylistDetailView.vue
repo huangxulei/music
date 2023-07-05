@@ -4,7 +4,8 @@ import { onMounted, ref, reactive } from "vue";
 import { useIpcRenderer } from "../../common/Utils";
 import { useLocalMusicStore } from "../store/localMusicStore"
 import { toYyyymmddHhMmSs } from '../../common/Times';
-
+import PlayAddAllBtn from '../components/PlayAddAllBtn.vue';
+import SongListControl from '../components/SongListControl.vue';
 const { getLocalPlaylist } = useLocalMusicStore()
 const ipcRenderer = useIpcRenderer()
 const props = defineProps({
@@ -56,7 +57,16 @@ onMounted(() => {
                         <span>最后更新：{{ toYyyymmddHhMmSs(detail.updated) }}</span>
                     </div>
                 </div>
+                <div class="action">
+                    <PlayAddAllBtn></PlayAddAllBtn>
+                </div>
             </div>
+        </div>
+        <div class="center">
+            <div class="list-title">
+                <span class="content-text-highlight">歌曲({{ detail.data.length }})</span>
+            </div>
+            <SongListControl :data="detail.data" :artistVisitable="true" :albumVisitable="true" :id="id"></SongListControl>
         </div>
     </div>
 </template>
@@ -122,12 +132,12 @@ onMounted(() => {
 }
 
 #local-playlist-detail-view .edit svg {
-    fill: var(--button-icon-btn-color);
+    fill: var(--svg-color);
     cursor: pointer;
 }
 
 #local-playlist-detail-view .edit svg:hover {
-    fill: var(--content-highlight-color);
+    fill: var(--hl-color);
 }
 
 #local-playlist-detail-view .time {
